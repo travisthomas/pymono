@@ -42,6 +42,19 @@ class CertificateManager:
                 for c in self.list_certs(object_type=obj_type, store=store):
                     c.delete()
                 
+    def install_cer(self, cer_path, object_type=CERT, store=USER_MY):
+        cmd = 'certmgr -add %s %s %s' % (object_type, store, cer_path)
+        p = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
+        o, e = p.communicate()
+        if p.returncode:
+            raise CertMgrexception('Failed to install certificate. %s' % e)
+
+    def install_p12(self, p12_path, object_type=CERT, store=USER_MY):
+        cmd = 'certmgr -importKey %s %s %s' % (object_type, store, p12_path)
+        p = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
+        o, e = p.communicate()
+        if p.returncode:
+            raise CertMgrexception('Failed to install P12. %s' % e)
 
 class MonoCertificate:
 
