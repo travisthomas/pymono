@@ -47,14 +47,14 @@ class CertificateManager:
         p = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
         o, e = p.communicate()
         if p.returncode:
-            raise CertMgrexception('Failed to install certificate. %s' % e)
+            raise CertMgrException('Failed to install certificate. %s' % e)
 
     def install_p12(self, p12_path, object_type=CERT, store=USER_MY):
         cmd = 'certmgr -importKey %s %s %s' % (object_type, store, p12_path)
         p = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
         o, e = p.communicate()
         if p.returncode:
-            raise CertMgrexception('Failed to install P12. %s' % e)
+            raise CertMgrException('Failed to install P12. %s' % e)
 
 class MonoCertificate:
 
